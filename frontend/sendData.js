@@ -1,7 +1,7 @@
 const data = {
-  method: "nroot",
-  params: [3, 8],
-  //   param_types: [int, int],
+  method: "reverse",
+  params: "aiueo",
+  // param_types: [int, int],
   id: 1,
 };
 

@@ -1,18 +1,17 @@
 import socket
 import os
-import json
-from calc import calc
+from calc import create_response
+from utils import *
 
-sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 server_address = '/tmp/server_socket_1101'
-
-response_type = {}
 
 try:
     os.unlink(server_address)
 except FileNotFoundError:
     pass
 
+response_type = {}
+sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 sock.bind(server_address)
 sock.listen(1)
 print(f'Server starting up on {server_address}')    
@@ -23,18 +22,12 @@ try:
         while True:
             data = connection.recv(80)
             if data:
-                # JSON文字列をPythonオブジェクトに変換。
-                data_str = json.loads(data)
-                method_name = data_str['method']
-                params = data_str['params']
-                print(f'受け取ったメソッド名: {method_name}')
+                method, params, id = split_data(data)
+                print(f'受け取ったmethod: {method}')
                 print(f'受け取ったparam: {params}')
-                # ans = func_table[method_name]
-                ans = calc(method_name, params)
-                response_type["results"] = str(ans)
-                response_type["result_type"] = "int"
-                response_str = json.dumps(response_type, indent=4)
-                response = response_str.encode('utf-8')
+                print(f'受け取ったid: {id}')
+                response_type["results"], response_type["result_type"], response_type["id"] = create_response(method, params, id)
+                response = convert_response(response_type)
                 connection.sendall(response)
             else:
                 break
