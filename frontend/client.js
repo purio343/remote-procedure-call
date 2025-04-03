@@ -3,9 +3,11 @@ import { encodeUTF8, decodeUTF8 } from "./utils.js";
 import { readFile } from "fs/promises";
 
 const config = JSON.parse(await readFile("./frontend/config.json"));
-const data = JSON.parse(
-  await readFile("./frontend/sampleData/validAnagram.json")
-);
+const method = "sort";
+// const data = JSON.parse(
+//   await readFile("./frontend/sampleData/validAnagram.json")
+// );
+const data = JSON.parse(await readFile(`./frontend/sampleData/${method}.json`));
 const address = config["address"];
 const client = net.createConnection(address);
 
@@ -23,6 +25,7 @@ client.on("data", (chunk) => {
   // JSONオブジェクトに変換
   const response = JSON.parse(buffer);
   console.log("次のデータを受信。", response);
+  buffer = "";
   client.end();
 });
 
