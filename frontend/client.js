@@ -1,13 +1,18 @@
 import net from "net";
-import { encodeUTF8, decodeUTF8 } from "./utils.js";
+import { encodeUTF8, decodeUTF8, input } from "./utils.js";
 import { readFile } from "fs/promises";
 
 const config = JSON.parse(await readFile("./frontend/config.json"));
-const method = "sort";
-// const data = JSON.parse(
-//   await readFile("./frontend/sampleData/validAnagram.json")
-// );
-const data = JSON.parse(await readFile(`./frontend/sampleData/${method}.json`));
+const method = await input();
+let data;
+try {
+  data = JSON.parse(await readFile(`./frontend/sampleData/${method}.json`));
+} catch (e) {
+  console.error(
+    `指定されたファイルが見つかりません。\n既存のファイルを選択してください。\nファイル：${method}.json`
+  );
+  process.exit(1);
+}
 const address = config["address"];
 const client = net.createConnection(address);
 
