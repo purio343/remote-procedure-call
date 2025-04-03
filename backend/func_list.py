@@ -11,8 +11,13 @@ def reverse(string):
     string_reversed = string[::-1]
     return string_reversed
 
-def validAnagram():
-    return "validAnagram test"
+def validAnagram(arr):
+    string1, string2 = arr
+    string1_list = sorted(string1)
+    string1_sorted = ''.join(string1_list)
+    string2_list = sorted(string2)
+    string2_sorted = ''.join(string2_list)
+    return string1_sorted == string2_sorted
 
-def sort():
-    return "sort test"
+def sort(arr):
+    return sorted(arr)

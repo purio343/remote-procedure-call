@@ -13,8 +13,10 @@ def create_response(func_name, params, req_id):
     if func_name in func_table:
         results = func_table[func_name](params)
         result_type = str(type(results))
-        res_id = req_id
-        return [results, result_type, res_id]
+        # res_id = req_id
+        response = {"results": results, "result_type": result_type, "res_id": req_id}
+        # return [results, result_type, res_id]
+        return response
     else:
         return "Unavailable function"
     
