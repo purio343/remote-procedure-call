@@ -1,8 +1,10 @@
 import net from "net";
 import data from "./sendData.js";
 import { encodeUTF8, decodeUTF8 } from "./utils.js";
+import { readFile } from "fs/promises";
 
-const address = "/tmp/server_socket_1101";
+const config = JSON.parse(await readFile("./frontend/config.json"));
+const address = config["address"];
 const client = net.createConnection(address);
 
 let buffer = "";
@@ -32,7 +34,7 @@ client.on("end", () => {
   console.log("切断しました。");
 });
 
-client.setTimeout(5000);
+client.setTimeout(config["timeout"]);
 
 client.on("timeout", () => {
   console.error("接続がタイムアウト。");
