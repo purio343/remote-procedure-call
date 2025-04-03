@@ -1,6 +1,6 @@
 from func_list import *
 
-def create_response(func_name, params, req_id):
+def calc_result(func_name, params, req_id):
     # 関数の実行結果を辞書に格納するのではなく、関数をそのまま格納する。
     func_table = {
         "floor": floor,
