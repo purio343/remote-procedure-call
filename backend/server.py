@@ -41,6 +41,8 @@ def handle_client(connection):
                     result = calc_result(method, params, id)
                     response = convert_result(result)
                     connection.sendall(response)
+                else:
+                    break
             except Exception as e:
                 print(f'An error occured processing request: {e}')
     except Exception as e:

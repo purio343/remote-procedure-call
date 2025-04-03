@@ -1,41 +1,40 @@
 import net from "net";
 import data from "./sendData.js";
+import { encodeUTF8, decodeUTF8 } from "./utils.js";
 
 const address = "/tmp/server_socket_1101";
 const client = net.createConnection(address);
 
-const encodeUTF8 = (str) => {
-  const encoder = new TextEncoder();
-  return encoder.encode(str);
-};
-
-const decodeUTF8 = (buffer) => {
-  const decoder = new TextDecoder();
-  return decoder.decode(buffer);
-};
+let buffer = "";
 
 client.on("connect", () => {
-  console.log("サーバに接続しました。");
+  console.log("サーバに接続。");
   console.log("次のデータを送信。", data);
-  client.write(JSON.stringify(data));
+  client.write(encodeUTF8(JSON.stringify(data)));
 });
 
 // serverから送信されたデータを表示。
-client.on("data", (data) => {
-  console.log("次のデータを受信しました。", decodeUTF8(data));
+client.on("data", (chunk) => {
+  buffer += decodeUTF8(chunk);
+  // JSONオブジェクトに変換
+  const response = JSON.parse(buffer);
+  console.log("次のデータを受信。", response);
   client.end();
 });
 
 client.on("error", (error) => {
-  console.log("エラーが発生しました。");
+  console.log("エラーが発生。");
   console.log(error.message);
+  client.destroy();
 });
 
 client.on("end", () => {
   console.log("切断しました。");
-  client.destroy();
 });
 
-client.on("close", () => {
-  console.log("Connection is closed");
+client.setTimeout(5000);
+
+client.on("timeout", () => {
+  console.error("接続がタイムアウト。");
+  client.destroy();
 });
