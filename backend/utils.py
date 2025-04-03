@@ -1,6 +1,6 @@
 import json
 
-def convert_response(data):
+def convert_result(data):
     data_json = json.dumps(data, indent=4)
     return data_json.encode('utf-8')
 
