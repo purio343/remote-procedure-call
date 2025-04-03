@@ -2,6 +2,8 @@ import net from "net";
 import { encodeUTF8, decodeUTF8, input } from "./utils.js";
 import { readFile } from "fs/promises";
 
+// Todo: クラスベースの処理に改善。
+
 const config = JSON.parse(await readFile("./frontend/config.json"));
 const method = await input();
 let data;
