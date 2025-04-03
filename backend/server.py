@@ -38,9 +38,6 @@ def handle_client(connection):
             try:
                 if data:
                     method, params, id = split_data(data)
-                    print(f'受け取ったmethod: {method}')
-                    print(f'受け取ったparam: {params}')
-                    print(f'受け取ったid: {id}')
                     result = calc_result(method, params, id)
                     response = convert_result(result)
                     connection.sendall(response)

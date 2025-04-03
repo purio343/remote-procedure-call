@@ -9,4 +9,7 @@ def split_data(data):
     method = data_str['method']
     params = data_str['params']
     id = data_str['id']
+    print(f'受け取ったmethod: {method}')
+    print(f'受け取ったparam: {params}')
+    print(f'受け取ったid: {id}')
     return [method, params, id]
