@@ -1,9 +1,11 @@
 import net from "net";
-import data from "./sendData.js";
 import { encodeUTF8, decodeUTF8 } from "./utils.js";
 import { readFile } from "fs/promises";
 
 const config = JSON.parse(await readFile("./frontend/config.json"));
+const data = JSON.parse(
+  await readFile("./frontend/sampleData/validAnagram.json")
+);
 const address = config["address"];
 const client = net.createConnection(address);
 
