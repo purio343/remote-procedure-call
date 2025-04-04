@@ -1,5 +1,5 @@
 import net from "net";
-import { encodeUTF8, decodeUTF8, input } from "./utils.js";
+import { encodeUTF8, decodeUTF8, input, generateUUID } from "./utils.js";
 import { readFile } from "fs/promises";
 
 // Todo: クラスベースの処理に改善。
@@ -9,6 +9,7 @@ const method = await input();
 let data;
 try {
   data = JSON.parse(await readFile(`./frontend/sampleData/${method}.json`));
+  data["id"] = generateUUID();
 } catch (e) {
   console.error(
     `指定されたファイルが見つかりません。\n既存のファイルを選択してください。\nファイル：${method}.json`
